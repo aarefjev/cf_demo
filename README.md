@@ -5,23 +5,23 @@ More information can be found under "Descriptions of the solutions" - but many o
 
 
 ## How to run ##
-I have two option to run it:
- - simple
- - not so much. definitely non-conventional method.
+	I have two option to run it:
+	 - simple
+	 - not so much. definitely non-conventional method.
 
-Simple: 
-	Step 0: Clone git repo under some server location. In my case it was http://arte.test/ (yup - right into the root directory, but should also work in a sub-directory of the server)
-	Step 0.1: make sure web erver will have writing permissions in /simple directory as a temporarily folder with sub-folder structure will be created there
-	Step 1: Point your loader into following location: $simple_send_url  = 'http://arte.test/simple/consumption.php';
-	Step 2: Have fun - in my sample on a 4 Core Ubuntu 64bit it took about 60 seconds to process 10,000 requests (with about 7 server errors)
-	Step 3: How to vew results? Point your browser to the following location: http://arte.test/simple/preview.html <- very basic, yet functional interface and I know how to make a lot more out of it if needed
-	
-Hard:
-	Step 0: Clone git repo under some server location. In my case it was http://arte.test/ (yup - right into the root directory, but should also work in a sub-directory of the server)
-	Step 0.1: make sure web erver will have writing permissions in your folder/root directory directory as a temporarily folder with sub-folder structure will be created there
-	Step 1: run ./start_server.sh from the linux command line (I hope you have php_cli & php_sockets installed on your server and port 8889 is not in use?)
-	Step 2: point your loader into http://server.ip:8889
-	Step 3: Have fun! It took for 10k requests about 2 seconds to be processed in exacly same way as in a "Simple" solution.
+	Simple: 
+		- Step 0: Clone git repo under some server location. In my case it was http://arte.test/ (yup - right into the root directory, but should also work in a sub-directory of the server)
+		- Step 0.1: make sure web erver will have writing permissions in /simple directory as a temporarily folder with sub-folder structure will be created there
+		- Step 1: Point your loader into following location: $simple_send_url  = 'http://arte.test/simple/consumption.php';
+		- Step 2: Have fun - in my sample on a 4 Core Ubuntu 64bit it took about 60 seconds to process 10,000 requests (with about 7 server errors)
+		- Step 3: How to vew results? Point your browser to the following location: http://arte.test/simple/preview.html <- very basic, yet functional interface and I know how to make a lot more out of it if needed
+		
+	Hard:
+		- Step 0: Clone git repo under some server location. In my case it was http://arte.test/ (yup - right into the root directory, but should also work in a sub-directory of the server)
+		- Step 0.1: make sure web erver will have writing permissions in your folder/root directory directory as a temporarily folder with sub-folder structure will be created there
+		- Step 1: run ./start_server.sh from the linux command line (I hope you have php_cli & php_sockets installed on your server and port 8889 is not in use?)
+		- Step 2: point your loader into http://server.ip:8889
+		- Step 3: Have fun! It took for 10k requests about 2 seconds to be processed in exacly same way as in a "Simple" solution.
 	
 
 ## My own testing results ##
