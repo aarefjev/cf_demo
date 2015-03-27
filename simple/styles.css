@@ -1,0 +1,16 @@
+body { font-size:10px; font-weight:normal; font-style:normal; background:#ffffff; word-wrap: break-word; margin: 0; padding: 0; border: 0; outline: 0;  font-family: Verdana, sans-serif; }
+a:link, a:visited { text-decoration: none; color:#333; }
+a:hover, a:active, a:focus { text-decoration: none; color:#666; }
+#main { margin: auto; width:80%; /* border:1px solid navy;*/ padding:10px;}
+.files {
+	display: block;
+	border:1px solid #EFEFEF;
+	padding:1px;
+	float: left;
+	width: 260px;
+	margin:1px;
+	cursor:pointer;
+}
+.files:hover {
+	border:1px solid navy;
+}

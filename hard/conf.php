@@ -16,7 +16,7 @@ $simple_send_url  = 'http://arte.cf/simple/consumption.php';
 $simple_send_port = 80;
 
 
-$number_of_messages = 10000;
+$number_of_messages = 100;
 
 $socket_server_address = 'localhost';
 $socket_port = 8889; // which one was not used yet on my dev.ubuntu...?

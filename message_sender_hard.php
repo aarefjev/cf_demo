@@ -39,8 +39,8 @@ for($i=0;$i<$number_of_messages;$i++){
 	$time_start = microtime(true); // well well... let's see
 	
 	// nothing too exciting
-	curl_setopt($ch, CURLOPT_PORT, $simple_send_port);
-	curl_setopt($ch, CURLOPT_URL, $simple_send_url);
+	curl_setopt($ch, CURLOPT_PORT, $socket_port);
+	curl_setopt($ch, CURLOPT_URL, $socket_server_address);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $json_to_send);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json') ); // need this to populate $HTTP_RAW_POST_DATA
@@ -54,7 +54,7 @@ for($i=0;$i<$number_of_messages;$i++){
 	$time_end = microtime(true);
 	$time = $time_end - $time_start;
 	
-	// echo "\n<br>time:".$time."[".$server_output."]\n__________";
+	//echo "\n<br>time:".$time."[".$server_output."]\n__________";
 	echo ". ";
 }
 $time_end0 = microtime(true);
