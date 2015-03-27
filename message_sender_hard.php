@@ -54,7 +54,7 @@ for($i=0;$i<$number_of_messages;$i++){
 	$time_end = microtime(true);
 	$time = $time_end - $time_start;
 	
-	//echo "\n<br>time:".$time."[".$server_output."]\n__________";
+	echo "\n<br>time:".$time."[".$server_output."]\n";
 	echo ". ";
 }
 $time_end0 = microtime(true);

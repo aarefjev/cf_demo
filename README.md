@@ -1,12 +1,40 @@
 # Test Project CF - Arte #
 
-# Major disclaimer - I am really sorry, some of the code was not tested properly, some of the code is simply replaced with a big comments - my biggest problem here - my free time, I have none. All thanks to my 1 year old daughter :(
+## Major disclaimer - I am really sorry, some of the code was not tested properly, some of the code is simply replaced with a big comments - my biggest problem here - my free time, I have almost none right now. ##
+More information can be found under "Descriptions of the solutions" - but many options are dependant on why we are doing this - and in this case it's just to give us some basis for further discussion.
+
+
+## How to run ##
+I have two option to run it:
+ - simple
+ - not so much. definitely non-conventional method.
+
+Simple: 
+	Step 0: Clone git repo under some server location. In my case it was http://arte.test/ (yup - right into the root directory, but should also work in a sub-directory of the server)
+	Step 0.1: make sure web erver will have writing permissions in /simple directory as a temporarily folder with sub-folder structure will be created there
+	Step 1: Point your loader into following location: $simple_send_url  = 'http://arte.test/simple/consumption.php';
+	Step 2: Have fun - in my sample on a 4 Core Ubuntu 64bit it took about 60 seconds to process 10,000 requests (with about 7 server errors)
+	Step 3: How to vew results? Point your browser to the following location: http://arte.test/simple/preview.html <- very basic, yet functional interface and I know how to make a lot more out of it if needed
+	
+Hard:
+	Step 0: Clone git repo under some server location. In my case it was http://arte.test/ (yup - right into the root directory, but should also work in a sub-directory of the server)
+	Step 0.1: make sure web erver will have writing permissions in your folder/root directory directory as a temporarily folder with sub-folder structure will be created there
+	Step 1: run ./start_server.sh from the linux command line (I hope you have php_cli & php_sockets installed on your server and port 8889 is not in use?)
+	Step 2: point your loader into http://server.ip:8889
+	Step 3: Have fun! It took for 10k requests about 2 seconds to be processed in exacly same way as in a "Simple" solution.
+	
+
+## My own testing results ##
+	Right. I tested two solutions with 10,000 messages. Simple took approximately 1 minute (60 seconds) to process with about 7 or so 500 Errors from the server. Hard - took about 2 seconds. At least 30 times faster. I wonder what results would be if everything was written in Node.js...
+
+## Solutions Tested (but please take a look at Questions that I have as well) ##
+	Simple solution is straightforward enough. Hard - is a lot more fun as I've essentially written as specilised web server and had a lot more ideas on how to use that solution (make it multifunctional and use web sockets to draw graphs / show stuff on map in browser in real time).
 
 ## Few Questions First ##
  - How many simultaneous users do we expect (at the peak)?
  - From what locations? All other the world?
  - How much load to expect?
- -  How much level of the security is needed? Is the data coming from the users or from the "trusted" sources? Do we have to check for validity of the requests? 
+ - How much level of the security is needed? Is the data coming from the users or from the "trusted" sources? Do we have to check for validity of the requests? 
  - Is it going to be one client and lot's of requests or messages from all over the world from thousands of clients? (From Mobile phones apps for example) or is it one (or only few) payment service providers that will feed us those transfer messages? This is really important to find where our bottlenecks are. 
   
   Many users - bottleneck is most likely number of sockets (if we are taking sockets approach and by default php has a limit of 1024 sockets as far as I remember, but we can always recompile PHP with a different number in mind) and we have to think about load balancing and for socket's it's not a trivial "install AWS Load balancer and set an auto scaling group" task. 
@@ -31,16 +59,16 @@
 	 - in "hard" will create solution based on a standard PHP-Sockets library, but will also provide unfinished, but conceptual code - sorry, don't have too much free time here
 
 	 
-## Descriptions of the solutions:
+## Descriptions of the solutions: ##
 	I used same loader for both of the solutions simple PHP + Curl message sender. Sending content as a POST date is a little non-conventional method on a web, but I came across that before in Authorise.NET and YuDo (I think).
-	- ### "Easy"
+	### - "Easy" ###
 		Step 1 - Consumption: Message received by PHP script using $HTTP_RAW_POST_DATA variable - in order for this to work in php 5.3+ (as far as I remember) you have to set none standard HTTP Header <-- done in Loader
 		Step 2 - Processor: Separate JSON data files saved onto a hard drive (can be NSF folder or AmazonS3 bucket) into a separate folder/folders  - in my sample it's all in one folder, but some FS don't like to have too many files in one folder so we have to have a hierarchy of some sort ideally by /YEAR/MONTH/DATE/HOUR, etc. 
 		Step 2.1: Because we need a list of files on a server (to render them we need path to each file and also if we want to show some trending data with graphs (with a help of some nice javascript library: pick one you like the most - http://www.sitepoint.com/15-best-javascript-charting-libraries/) it's probably a good idea to generate separate JSON (or few, for various currency pairs or countries, or all together) files with some major data in them, so we could load that data with a help of Ajax and process how we want (or send directly to js chart libs)
 		Step 3 - Frontend: Actual rendering is easy - load JSON, process, send to Chart JS lib, if needed, or display content of the message. Anything you want.
 		My sample will only have list of files and button next to each to show data that in the file. If we want updates (not in real time, but it's ok for most cases) - Ajax will run using settimeout every so often and make some changes in a frontend. 
 		
-	- ### "Advanced"
+	### "Advanced" ###
 		Step 1.0: We have one main server (written in PHP this time), sitting there and waiting for socket connections to open and send us message (or multiple messages).
 		Step 1.1: Rate limiter - after every message received we check how many messages we received in the past second (or minute / depends on what limit we want to set) and if we exceeded limit -> run microtime() in a loop until limit is not exceeded
 		Step 1.2: There are few tricks in PHP how to make sockets a little bit faster and also secure - PHP can support good old BSD sockets - http://php.net/manual/en/intro.sockets.php, but... they don't support ssl/tls - and if we what it - better use Streams: http://php.net/manual/en/book.stream.php  And again - by default PHP can handle 1024 open connections but can easily be recompiled to support more.
@@ -90,8 +118,6 @@
 
 	
 	
-	
+Thank you for reading all that! And remember - PHP was used deliberately, to show what it's capable of (And much more in fact, but I didn't have to finish full solution).
 
- 
- 
-Thoughts:
+

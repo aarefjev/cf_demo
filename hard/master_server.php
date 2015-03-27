@@ -66,7 +66,7 @@ do {
 					// we have JSON
 					// *********************************************************************************
 					
-					$obj = json_decode($json); // god bless json!
+					$obj = process_json($header_line); // god bless json!
 					
 					// data from that obj can be
 					// 1: send via another socket connection to socket.io and rendered on a frontend part of it
@@ -84,7 +84,7 @@ do {
 		//}
 	}
 	
-	$message='ok';
+	$message='All Good Now!';
 	$output = "";
 	$Header = "HTTP/1.1 200 OK \r\n" .
 	"Date: Fri, 31 Dec 1999 23:59:59 GMT \r\n" .
@@ -104,6 +104,67 @@ if (isset($sock)) {
 	echo "Socket closed.";
 }
 
+/**
+ * 
+ * 
+ * 
+ * @return <type>
+ */
+function process_json($json){
+	// copied from simple for testing only
+	
+	global $files_main_dir, $filelist_name;
+
+	$obj = json_decode($json); // god bless json!
+	
+	
+	/*
+	 * we should probably put all the checks in there: if format is valid, came from a correct source, data is fine 
+	 * ->> no time for this now. Not too hard to implement.
+	 */
+	 
+	// info -> timePlaced: "25-MAR-15 06:03:49"
+
+	$hr_dirname = substr($obj->timePlaced,10,2);
+	$min_dirname = substr($obj->timePlaced,13,2);
+
+	// $filename = $files_main_dir.'/'.md5($json).'.json'; // md5 seems like a good option for most cases
+
+	/* i'll use multifolder structure with filename being DATE-TIME-USERID. 
+	 * why? just because it looks better and also ordered nicely.
+	 * 
+	 */
+	$filename = $files_main_dir.'/'.$hr_dirname.'/'.$min_dirname.'/'.str_replace(':','_',substr($obj->timePlaced,10,8)).'-'.$obj->userId.'.json'; 
+
+
+	// if main file directory is none-existant - create
+	if(!is_dir($files_main_dir)){ // was it the fastest way of checking if directory does exist? Another questions here - does it really matter in that sample? Where is the bottleneck - that is the question.
+		if( !mkdir($files_main_dir) ){
+			die("Directory Permission Problem!");
+		}
+	}
+	// if sub directory is none-existant - create
+	if(!is_dir($files_main_dir.'/'.$hr_dirname)){
+		mkdir($files_main_dir.'/'.$hr_dirname);
+	}
+	// and so on and so forth - depends on amount of requests / per minute we are going to have remember 64k files in one directory 
+	if(!is_dir($files_main_dir.'/'.$hr_dirname.'/'.$min_dirname)){
+		mkdir($files_main_dir.'/'.$hr_dirname.'/'.$min_dirname);
+	}
+
+	// creating/appening more content to a filelist
+	$json_prefix = ( is_file($files_main_dir.'/'.$filelist_name) )?',':''; // is it a new file?
+	$filelist_content = $json_prefix.'"'.$filename.'"';
+
+	// writing actual json message file
+	$ret = file_put_contents($files_main_dir.'/'.$filelist_name,$filelist_content,FILE_APPEND); // we should probably check if writing was a success
+
+
+
+	file_put_contents($filename,$json);
+
+
+}
 
 
 

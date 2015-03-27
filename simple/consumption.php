@@ -8,6 +8,7 @@
  * @version 1.0
  */
  
+ 
 require('../conf.php');
 // print_r($HTTP_RAW_POST_DATA);
 
@@ -37,7 +38,9 @@ $filename = $files_main_dir.'/'.$hr_dirname.'/'.$min_dirname.'/'.str_replace(':'
 
 // if main file directory is none-existant - create
 if(!is_dir($files_main_dir)){ // was it the fastest way of checking if directory does exist? Another questions here - does it really matter in that sample? Where is the bottleneck - that is the question.
-	mkdir($files_main_dir);
+	if( !mkdir($files_main_dir) ){
+		die("Directory Permission Problem!");
+	}
 }
 // if sub directory is none-existant - create
 if(!is_dir($files_main_dir.'/'.$hr_dirname)){
