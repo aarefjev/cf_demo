@@ -1,6 +1,6 @@
 # Test Project CF - Arte #
 
-## Major disclaimer - I am really sorry, some of the code was not tested properly, some of the code is simply replaced with a big comments - my biggest problem here - my free time, I have almost none right now. ##
+## Major disclaimer - some of the code was not tested properly, some of the code is simply replaced with a big comments ##
 More information can be found under "Descriptions of the solutions" - but many options are dependant on why we are doing this - and in this case it's just to give us some basis for further discussion.
 
 
